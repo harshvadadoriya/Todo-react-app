@@ -72,6 +72,8 @@ body {
   font-size: 17px;
   color: #787878;
   font-weight: 500;
+  position: relative;
+  left: 20px;
 }
 
 .plus {
