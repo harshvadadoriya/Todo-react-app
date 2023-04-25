@@ -91,7 +91,6 @@ body {
 }
 
 .add {
-  margin-top: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,7 +98,7 @@ body {
   width: 100%;
   align-items: center;
   font-size: 55px;
-  font-weight: 300;
+  font-weight: 400;
   color: rgb(100, 155, 100);
 }
 

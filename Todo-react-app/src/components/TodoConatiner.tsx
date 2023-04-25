@@ -14,18 +14,17 @@ const TodoContainer: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (showInput) {
       inputRef.current?.focus();
+      const handleEscape = (event: KeyboardEvent): void => {
+        if (event.key === "Escape") {
+          setShowInput(false);
+          console.log("called");
+        }
+      };
+      document.addEventListener("keydown", handleEscape);
+      return () => {
+        document.removeEventListener("keydown", handleEscape);
+      };
     }
-    const handleEscape = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") {
-        setShowInput(false);
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
   }, [showInput]);
 
   return (
