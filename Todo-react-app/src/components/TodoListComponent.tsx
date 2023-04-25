@@ -1,3 +1,4 @@
+// Todo List component which will display list of todos
 import React from "react";
 import pendingTodoImg from "../assets/task-pending.png";
 import successTodoImg from "../assets/task-completed.png";

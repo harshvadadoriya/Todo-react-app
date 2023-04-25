@@ -102,6 +102,10 @@ body {
   color: rgb(100, 155, 100);
 }
 
+.add > p {
+  margin-top: 10px;
+}
+
 .todo-container {
   width: auto;
   height: 380px;

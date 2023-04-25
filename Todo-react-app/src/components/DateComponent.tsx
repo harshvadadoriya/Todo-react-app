@@ -1,3 +1,4 @@
+// Date Component to dispplay live date
 import React from "react";
 
 const storeDate: number = new Date().getDate();
@@ -31,19 +32,23 @@ const day: string[] = [
 const myDay: Date = new Date();
 const storeDay: string = day[myDay.getDay()];
 
-const DateComponent: React.FC = (): JSX.Element => (
-  <div className="row date-container">
-    <div className="col date-month-year">
-      <span className="date">{storeDate}</span>
-      <span className="month-year">
-        <span className="month">{storeMonth}</span>
-        <p className="year">{storeYear}</p>
-      </span>
-    </div>
-    <div className="col">
-      <span className="day">{storeDay}</span>
-    </div>
-  </div>
-);
+const DateComponent: React.FC = (): JSX.Element => {
+  return (
+    <>
+      <div className="row date-container">
+        <div className="col date-month-year">
+          <span className="date">{storeDate}</span>
+          <span className="month-year">
+            <span className="month">{storeMonth}</span>
+            <p className="year">{storeYear}</p>
+          </span>
+        </div>
+        <div className="col">
+          <span className="day">{storeDay}</span>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default DateComponent;

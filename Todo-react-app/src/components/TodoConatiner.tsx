@@ -1,3 +1,4 @@
+// Main Todo Container component which display whole Todo App
 import React, { useState, useRef, useEffect } from "react";
 import DateComponent from "./DateComponent";
 import TodoComponent from "./TodoListComponent";
@@ -17,7 +18,6 @@ const TodoContainer: React.FC = (): JSX.Element => {
       const handleEscape = (event: KeyboardEvent): void => {
         if (event.key === "Escape") {
           setShowInput(false);
-          console.log("called");
         }
       };
       document.addEventListener("keydown", handleEscape);
