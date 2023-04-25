@@ -4,15 +4,49 @@ import toast, { Toaster } from "react-hot-toast";
 import DateComponent from "./DateComponent";
 import TodoComponent from "./TodoListComponent";
 
+interface Todo {
+  text: string;
+  status: "pending" | "completed";
+}
+
 const TodoContainer: React.FC = (): JSX.Element => {
   const [todo, setTodo] = useState("");
   const [showInput, setShowInput] = useState(false);
-  const inputRef: React.RefObject<HTMLInputElement> =
-    useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // when user clicks on + button it will show input field to add todo
   const handlePlusClick = (): void => {
     setShowInput(true);
+  };
+
+  // function to save todo in localStorage when enter key is pressed
+  const handleInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (e.key === "Enter") {
+      // get the existing todos from localStorage using JSON.parse() method or create an empty array if no todos exist.
+      const todos = JSON.parse(localStorage.getItem("todos") || "[]");
+      if (!todo.trim()) {
+        // show alert if the todo string is empty or contains only spaces
+        toast.error("Todo can't be empty!", { duration: 1500 });
+      } else {
+        // else store todo in localStorage
+        todos.push({ text: todo, status: "pending" });
+        localStorage.setItem("todos", JSON.stringify(todos));
+        setTodo("");
+        toast.success("Todo has been added!", { duration: 1500 });
+      }
+    }
+  };
+
+  // if the current date is different from the saved date in local storage. clear the localStorage
+  const checkAndClearLocalStorage = (): void => {
+    const currentDate = new Date().toLocaleDateString();
+    const savedDate = localStorage.getItem("date");
+    if (currentDate !== savedDate) {
+      localStorage.clear();
+      localStorage.setItem("date", currentDate);
+    }
   };
 
   useEffect(() => {
@@ -28,32 +62,11 @@ const TodoContainer: React.FC = (): JSX.Element => {
         document.removeEventListener("keydown", handleEscape);
       };
     }
-    // run below function on every render
-    checkAndClearLocalStorage();
   }, [showInput]);
 
-  // function to save todo in localStorage when enter key is pressed
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      // get the existing todos from local storage using JSON.parse() method or create an empty array if no todos exist.
-      const todos = JSON.parse(localStorage.getItem("todos") || "[]");
-      todos.push({ text: todo, status: "pending" });
-      localStorage.setItem("todos", JSON.stringify(todos));
-      setTodo("");
-      toast.success("Todo has been added", { duration: 1500 });
-    }
-  };
+  checkAndClearLocalStorage();
 
-  // if the current date is different from the saved date in local storage. clear the localStorage
-  const checkAndClearLocalStorage = () => {
-    const currentDate = new Date().toLocaleDateString();
-    const savedDate = localStorage.getItem("date");
-    if (currentDate !== savedDate) {
-      localStorage.clear();
-      localStorage.setItem("date", currentDate);
-    }
-  };
-
+  // render UI
   return (
     <>
       <section className="main">
@@ -61,11 +74,16 @@ const TodoContainer: React.FC = (): JSX.Element => {
           <div className="container">
             <DateComponent />
             <div className="todo-container">
-              <TodoComponent text="Go for a walk" status="completed" />
-              <TodoComponent text="Try not to fall asleep" status="completed" />
-              <TodoComponent text="Go To Gym" status="pending" />
-              <TodoComponent text="Read an article" status="pending" />
-              <TodoComponent text="Watch 'Sherlock'" status="pending" />
+              {localStorage.getItem("todos") &&
+                JSON.parse(localStorage.getItem("todos") || "[]").map(
+                  (item: Todo, index: number) => (
+                    <TodoComponent
+                      key={index}
+                      text={item.text}
+                      status={item.status}
+                    />
+                  )
+                )}
             </div>
             {showInput ? (
               <div className="inputText">
@@ -75,7 +93,7 @@ const TodoContainer: React.FC = (): JSX.Element => {
                   ref={inputRef}
                   value={todo}
                   onChange={(e) => setTodo(e.target.value)}
-                  onKeyUp={handleInputKeyDown}
+                  onKeyDown={handleInputKeyDown}
                 />
                 <Toaster />
               </div>
