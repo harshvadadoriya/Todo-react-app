@@ -27,7 +27,7 @@ body {
   align-items: center;
   height: 550px;
   width: 400px;
-  background-color: whitesmoke;
+  background-color: white;
   border: none;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -73,13 +73,12 @@ body {
   color: #787878;
   font-weight: 500;
   position: relative;
-  left: 20px;
+  left: 6px;
 }
 
 .plus {
   height: 85px;
   width: 85px;
-  background-color: rgb(101, 209, 101);
   border: none;
   border-radius: 50%;
   position: absolute;
@@ -100,10 +99,6 @@ body {
   font-size: 55px;
   font-weight: 400;
   color: rgb(100, 155, 100);
-}
-
-.add > p {
-  margin-top: 10px;
 }
 
 .todo-container {
@@ -127,8 +122,6 @@ body {
 
 .todo-list img {
   cursor: pointer;
-  /* border-radius: 50%;
-  border: 3px solid #e8e8e8; */
 }
 
 .todo-list > span {
@@ -164,17 +157,17 @@ input[type="text"] {
 .task-completed {
   display: grid;
   justify-content: center;
-  align-items: center;
 }
 
 .task-completed p {
-  text-align: center;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 500;
+  color: #707070;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .task-completed img {
-  margin-top: -100px;
-  width: 350px;
-  height: 350px;
+  margin-top: -18px;
+  width: 300px;
 }
