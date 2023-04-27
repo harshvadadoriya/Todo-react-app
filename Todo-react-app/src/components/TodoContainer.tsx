@@ -1,7 +1,6 @@
 // Main Todo Container component which display whole Todo App
 import React, { useState, useRef, useEffect } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import DateComponent from "./DateComponent";
+import toast from "react-hot-toast";
 import TodoListComponent from "./TodoListComponent";
 import TaskCompletedImg from "../assets/all-task-completed.gif";
 
@@ -12,20 +11,21 @@ interface Todo {
 
 const TodoContainer: React.FC = (): JSX.Element => {
   const [todo, setTodo] = useState<Todo[]>([]);
-  const [showInput, setShowInput] = useState(false);
-  const [todoText, setTodoText] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [showInput, setShowInput] = useState<boolean>(false);
+  const [todoText, setTodoText] = useState<string>("");
   const todoEndRef = useRef<HTMLDivElement>(null);
 
   // when user clicks on + button it will show input field to add todo
   const handlePlusClick = (): void => {
-    setShowInput(true);
+    // used functional update form to avoid a state update race condition
+    setShowInput((prev) => !prev);
   };
 
   useEffect(() => {
     // get the existing todos from localStorage using JSON.parse() method or create an empty array if no todos exist.
     const storedTodos = JSON.parse(localStorage.getItem("todos") || "[]");
     setTodo(storedTodos);
+    checkAndClearLocalStorage();
   }, []);
 
   // function to save todo in localStorage when enter key is pressed
@@ -33,7 +33,7 @@ const TodoContainer: React.FC = (): JSX.Element => {
     e: React.KeyboardEvent<HTMLInputElement>
   ): void => {
     if (e.key === "Enter") {
-      if (!todoText.trim()) {
+      if (!todoText?.trim()) {
         toast.error("Todo can't be empty!", { duration: 1500 });
       } else {
         // created a newTodo object using the text from the input field and set its status to 'pending'
@@ -59,7 +59,7 @@ const TodoContainer: React.FC = (): JSX.Element => {
   };
 
   // function to change status of todos from initial status "pending" to "completed"
-  const handleStatusChange = (index: number) => {
+  const handleStatusChange = (index: number): void => {
     const newTodoList = [...todo];
     if (newTodoList[index].status === "pending") {
       // If the todo is pending, mark it as completed and remove it from localStorage
@@ -78,7 +78,6 @@ const TodoContainer: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (showInput) {
-      inputRef.current?.focus();
       const handleEscape = (e: KeyboardEvent): void => {
         if (e.key === "Escape") {
           setShowInput(false);
@@ -95,61 +94,49 @@ const TodoContainer: React.FC = (): JSX.Element => {
     todoEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [todoText]);
 
-  checkAndClearLocalStorage();
-
   // render UI
   return (
     <>
-      <section className="main">
-        <div className="mx-4 card">
-          <div className="container">
-            <DateComponent />
-
-            {todo.length === 0 ? (
-              <div className="task-completed">
-                <p className="todos-completed">All Todos Completed!</p>
-                <img
-                  className="img-fluid"
-                  src={TaskCompletedImg}
-                  alt="All Task Completed"
-                />
-              </div>
-            ) : (
-              <div className="todo-container">
-                {todo.map((item, index) => (
-                  <TodoListComponent
-                    key={index}
-                    text={item.text}
-                    status={item.status}
-                    onStatusChange={() => handleStatusChange(index)}
-                  />
-                ))}
-                <div ref={todoEndRef}></div>
-              </div>
-            )}
-
-            {showInput ? (
-              <div className="inputText">
-                <input
-                  type="text"
-                  placeholder="Add Your Todo!"
-                  ref={inputRef}
-                  value={todoText}
-                  onChange={(e) => setTodoText(e.target.value)}
-                  onKeyDown={handleInputKeyDown}
-                />
-                <Toaster />
-              </div>
-            ) : (
-              <button className="plus" onClick={handlePlusClick}>
-                <div className="add">
-                  <p>+</p>
-                </div>
-              </button>
-            )}
-          </div>
+      {todo.length === 0 ? (
+        <div className="task-completed">
+          <p className="todos-completed">All Todos Completed!</p>
+          <img
+            className="img-fluid"
+            src={TaskCompletedImg}
+            alt="All Task Completed"
+          />
         </div>
-      </section>
+      ) : (
+        <div className="todo-container">
+          {todo.map((item, index) => (
+            <TodoListComponent
+              key={index}
+              text={item.text}
+              status={item.status}
+              onTodoStatusChange={() => handleStatusChange(index)}
+            />
+          ))}
+          <div ref={todoEndRef}></div>
+        </div>
+      )}
+      {showInput ? (
+        <div className="inputText">
+          <input
+            type="text"
+            placeholder="Add Your Todo!"
+            autoFocus
+            value={todoText}
+            onChange={(e) => setTodoText(e.target.value)}
+            onKeyDown={handleInputKeyDown}
+          />
+        </div>
+      ) : (
+        <button className="plus" onClick={handlePlusClick}>
+          <div className="add">
+            <p>+</p>
+          </div>
+        </button>
+      )}
     </>
   );
 };

@@ -1,11 +1,13 @@
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import TodoContainer from "./components/TodoContainer";
+import MainComponent from "./components/MainComponent";
+import { Toaster } from "react-hot-toast";
 
 const MyApp = (): JSX.Element => {
   return (
     <>
-      <TodoContainer />
+      <Toaster />
+      <MainComponent />
     </>
   );
 };
