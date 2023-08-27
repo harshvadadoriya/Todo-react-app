@@ -1,0 +1,173 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
+body {
+  background-color: #f0efe9;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 550px;
+  width: 400px;
+  background-color: white;
+  border: none;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.date-container {
+  align-items: center;
+  margin-top: 25px;
+}
+
+.date-month-year {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: -10px;
+}
+
+.date {
+  font-size: 45px;
+  color: #585858;
+  font-weight: 500;
+}
+
+.month-year {
+  font-size: 15px;
+  line-height: 18px;
+  margin: 18px 0 0 8px;
+}
+
+.month {
+  color: #505050;
+  font-weight: 500;
+}
+
+.year {
+  color: #787878;
+  font-weight: 400;
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+  font-size: 17px;
+  color: #787878;
+  font-weight: 500;
+  position: relative;
+  left: 15px;
+}
+
+.plus {
+  height: 85px;
+  width: 85px;
+  border: none;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 3vh;
+  left: 50%;
+  bottom: -8%;
+  transform: translateX(-50%);
+  background-color: #5ad3a0;
+}
+
+.add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  font-size: 55px;
+  font-weight: 400;
+  color: rgb(100, 155, 100);
+}
+
+.todo-container {
+  width: auto;
+  height: 380px;
+  overflow: auto;
+  margin-top: 10px;
+}
+
+.todo-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  width: 80%;
+  margin: auto;
+  margin-top: 5px;
+  font-size: 17px;
+  font-weight: 300;
+}
+
+.todo-list img {
+  cursor: pointer;
+}
+
+.todo-list > span {
+  font-weight: 400;
+}
+
+.completed {
+  color: #94949c;
+}
+
+.todo-status {
+  width: 27px;
+}
+
+.inputText {
+  display: flex;
+  justify-content: center;
+}
+
+input[type="text"] {
+  position: absolute;
+  bottom: 3%;
+  left: 10%;
+  height: 35px;
+  font-size: large;
+  padding: 5px;
+  width: 80%;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.task-completed {
+  display: grid;
+  justify-content: center;
+}
+
+.task-completed p {
+  font-size: 21px;
+  font-weight: 500;
+  color: #707070;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.task-completed img {
+  margin-top: -18px;
+  width: 300px;
+}
